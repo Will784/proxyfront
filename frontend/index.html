@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compuerta de logs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/Styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-copy">
+      <h1>Compuerta de logs</h1>
+      <p>Cada microservicio recibe sus logs a través de un proxy. Elige quién eres, envía un log y mira qué decide la compuerta antes de llegar al servicio.</p>
+    </div>
+    <section class="identity" aria-label="Identidad de la petición">
+      <div class="roles" id="roleSelector" role="radiogroup" aria-label="Rol con el que envías las peticiones"></div>
+      <label class="client-field">Nombre del cliente
+        <input id="clientId" type="text" value="panel-web" maxlength="40" autocomplete="off">
+      </label>
+    </section>
+  </header>
+
+  <main class="layout">
+    <section id="lanes" class="lanes" aria-label="Microservicios y sus proxies"></section>
+    <aside class="side">
+      <section id="detail" class="panel" aria-live="polite"></section>
+      <section class="panel">
+        <h2>Decisiones de las compuertas</h2>
+        <ol id="audit" class="audit"></ol>
+      </section>
+    </aside>
+  </main>
+
+  <dialog id="logDialog">
+    <form id="logForm" method="dialog">
+      <h2 id="dialogTitle">Enviar un log</h2>
+      <label>Origen
+        <input name="source" value="checkout-service" required maxlength="80">
+      </label>
+      <label>Nivel
+        <select name="level">
+          <option>DEBUG</option><option selected>INFO</option><option>WARN</option><option>ERROR</option><option>CRITICAL</option>
+        </select>
+      </label>
+      <label>Mensaje
+        <input name="message" value="Pedido 1042 confirmado" required maxlength="500">
+      </label>
+      <label>Payload (opcional)
+        <textarea name="payload" rows="4" placeholder='{"pedido":1042}'></textarea>
+      </label>
+      <p class="hint">Si envías dos veces el mismo log seguido, la ingesta descarta el repetido.</p>
+      <div class="dialog-actions">
+        <button type="button" class="ghost" id="cancelDialog">Cancelar</button>
+        <button type="submit" class="primary">Enviar log</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/AppConfig.js"></script>
+  <script src="js/ApiClient.js"></script>
+  <script src="js/DashboardApp.js"></script>
+</body>
+</html>
